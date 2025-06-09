@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fabio.controladores.ControladorCreacionPersonaje" spacing="10" styleClass="root" alignment="CENTER">
+    
+    <Label text="Creación de Personaje" styleClass="titulo"/>
+    
+    <GridPane hgap="10" vgap="10">
+        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="tfNombre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        
+        <Label text="Salud:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Spinner fx:id="spSalud" GridPane.rowIndex="1" GridPane.columnIndex="1" 
+                 editable="true" min="10" max="100" initialValue="50"/>
+        
+        <Label text="Fuerza:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Spinner fx:id="spFuerza" GridPane.rowIndex="2" GridPane.columnIndex="1" 
+                 editable="true" min="1" max="20" initialValue="5"/>
+        
+        <Label text="Defensa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Spinner fx:id="spDefensa" GridPane.rowIndex="3" GridPane.columnIndex="1" 
+                 editable="true" min="1" max="20" initialValue="5"/>
+        
+        <Label text="Velocidad:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Spinner fx:id="spVelocidad" GridPane.rowIndex="4" GridPane.columnIndex="1" 
+                 editable="true" min="1" max="20" initialValue="5"/>
+    </GridPane>
+    
+    <Button text="Comenzar Juego" onAction="#comenzarJuego" styleClass="boton-principal"/>
+</VBox>
