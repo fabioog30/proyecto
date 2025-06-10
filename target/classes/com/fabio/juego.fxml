@@ -4,38 +4,46 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fabio.controladores.ControladorJuego">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.fabio.controladores.ControladorJuego"
+            onKeyPressed="#manejarTeclaPresionada" focusTraversable="true">
     
     <top>
-        <HBox styleClass="panel-superior" spacing="10">
+        <HBox styleClass="panel-superior" spacing="10" style="-fx-padding: 10;">
             <VBox spacing="5">
-                <Label text="Jugador:" styleClass="subtitulo"/>
+                <Label text="Jugador:" styleClass="subtitulo" style="-fx-font-weight: bold;"/>
                 <Label fx:id="lblNombreJugador" text="Nombre"/>
                 <Label fx:id="lblSaludJugador" text="Salud: 100/100"/>
                 <Label fx:id="lblFuerzaJugador" text="Fuerza: 10"/>
                 <Label fx:id="lblDefensaJugador" text="Defensa: 5"/>
-                <Label fx:id="lblExperienciaJugador" text="Experiencia: 0"/>
             </VBox>
             
             <VBox spacing="5">
-                <Label text="Turno actual:" styleClass="subtitulo"/>
+                <Label text="Estado del Juego:" styleClass="subtitulo" style="-fx-font-weight: bold;"/>
                 <Label fx:id="lblTurnoActual" text="Jugador"/>
+                <Label text="Enemigos restantes:"/>
+                <Label fx:id="lblEnemigosRestantes" text="5"/>
             </VBox>
             
             <VBox spacing="5">
-                <Label text="Enemigos restantes:" styleClass="subtitulo"/>
-                <Label fx:id="lblEnemigosRestantes" text="5"/>
+                <Label text="Controles:" styleClass="subtitulo" style="-fx-font-weight: bold;"/>
+                <Label text="Flechas o WASD para mover"/>
+                <Label text="Acércate a un enemigo para atacar"/>
             </VBox>
         </HBox>
     </top>
     
     <center>
-        <GridPane fx:id="gridEscenario" gridLinesVisible="true" 
-                  hgap="1" vgap="1" alignment="CENTER"/>
+        <VBox alignment="CENTER" spacing="10">
+            <GridPane fx:id="gridEscenario" gridLinesVisible="true" 
+                      hgap="1" vgap="1" alignment="CENTER"
+                      focusTraversable="true"
+                      onKeyPressed="#manejarTeclaPresionada"/>
+        </VBox>
     </center>
     
     <bottom>
-        <Label fx:id="lblMensaje" text="Bienvenido al juego de mazmorras!" 
-               styleClass="mensaje"/>
+        <Label fx:id="lblMensaje" text="Bienvenido al juego de mazmorras! Usa las flechas para moverte." 
+               styleClass="mensaje" style="-fx-padding: 10; -fx-font-size: 14px;"/>
     </bottom>
 </BorderPane>
