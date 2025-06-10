@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Clase que representa el escenario del juego.
@@ -252,11 +253,46 @@ public class Escenario {
         // Quitar personaje de su posición actual
         celdas[personaje.getPosX()][personaje.getPosY()].quitarPersonaje();
 
+        if(celdas[nuevaX][nuevaY].esMaldicion()){
+            // Obtener todos los personajes vivos en el escenario
+            List<Personaje> posiblesObjetivos = new ArrayList<>();
+        
+            // Añadir protagonista si está vivo
+            if (getProtagonista() != null && 
+                getProtagonista().estaVivo()) {
+                posiblesObjetivos.add(getProtagonista());
+            }
+        
+            // Añadir enemigos vivos
+            for (Enemigo enemigo : getEnemigos()) {
+                if (enemigo.estaVivo()) {
+                posiblesObjetivos.add(enemigo);
+                }
+            }
+        
+            // Si hay al menos un personaje vivo, seleccionar uno al azar
+            if (!posiblesObjetivos.isEmpty()) {
+                Random rand = new Random();
+                Personaje objetivo = posiblesObjetivos.get(rand.nextInt(posiblesObjetivos.size()));
+                aplicarMaldicion(objetivo);
+            }
+        }
+
         // Actualizar posición del personaje
         personaje.setPosicion(nuevaX, nuevaY);
 
         // Colocar personaje en la nueva posición
         celdas[nuevaX][nuevaY].setPersonaje(personaje);
+    }
+
+    private void aplicarMaldicion(Personaje personaje) {
+        // Aplicar maldición: reducir salud y salud máxima en un 25%
+        int reduccion = (int) (personaje.getSaludMaxima() * 0.25);
+        personaje.setSaludMaxima(personaje.getSaludMaxima() - reduccion);
+        personaje.recibirDanio(reduccion);
+
+        System.out.println("¡Maldición aplicada! " + (personaje instanceof Protagonista ? "Protagonista" : "Enemigo")
+                + " perdió 25% de salud máxima y actual");
     }
 
     /**
