@@ -27,34 +27,41 @@ public class Enemigo extends Personaje {
     
     public String getTipo() { return tipo; }
     
-    @Override
-    public boolean mover(Escenario escenario, int dx, int dy) {
-        int nuevaX = posX + dx;
-        int nuevaY = posY + dy;
+@Override
+public boolean mover(Escenario escenario, int dx, int dy) {
+    int nuevaX = posX + dx;
+    int nuevaY = posY + dy;
+    
+    if (!escenario.estaDentroDelEscenario(nuevaX, nuevaY)) {
+        return false;
+    }
+    
+    Celda celdaDestino = escenario.getCelda(nuevaX, nuevaY);
+    Personaje objetivo = celdaDestino.getPersonaje();
+    
+    // ATAQUE (si hay personaje en la celda destino)
+    if (objetivo != null) {
+        int danio = Math.max(1, ataque - objetivo.getDefensa() / 2);
+        objetivo.recibirDanio(danio);
         
-        // Verificar si la nueva posición está dentro del escenario
-        if (!escenario.estaDentroDelEscenario(nuevaX, nuevaY)) {
-            return false;
+        // Verifica si el objetivo murió
+        if (!objetivo.estaVivo()) {
+            if (objetivo instanceof Enemigo) {
+                escenario.eliminarEnemigo((Enemigo)objetivo);
+            }
         }
-        
-        // Verificar si la celda es transitable
-        if (!escenario.getCelda(nuevaX, nuevaY).esTransitable()) {
-            return false;
-        }
-        
-        // Verificar si hay otro personaje en la celda
-        Personaje otro = escenario.getPersonajeEn(nuevaX, nuevaY);
-        if (otro != null) {
-            // Atacar al otro personaje
-            int danio = Math.max(1, ataque - otro.getDefensa() / 2);
-            otro.recibirDanio(danio);
-            return false; // No hubo movimiento, hubo ataque
-        }
-        
-        // Mover al enemigo
+        return true; // Cambio clave: Debe retornar true para contar como acción
+    }
+    
+    // MOVIMIENTO (si la celda está vacía)
+    if (celdaDestino.esTransitable()) {
         escenario.moverPersonaje(this, nuevaX, nuevaY);
         return true;
     }
+    
+    return false;
+}
+
     
     /**
      * Método para que el enemigo decida su movimiento.
