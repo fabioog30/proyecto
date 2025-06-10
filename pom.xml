@@ -97,7 +97,7 @@
 				</directory>
 				<includes>
 					<include>
-						**/*.fxml
+						**/*.*
 					</include>
 				</includes>
 			</resource>
