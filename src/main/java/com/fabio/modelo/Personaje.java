@@ -57,7 +57,7 @@ public abstract class Personaje {
      * @param cantidad Cantidad de daño a recibir.
      */
     public void recibirDanio(int cantidad) {
-        salud = Math.max(0, salud - cantidad);
+        this.salud = Math.max(0, this.salud - cantidad);
     }
     
     /**
