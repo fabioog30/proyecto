@@ -44,24 +44,24 @@ public class ControladorJuego {
         try {
             this.protagonista = protagonista;
             System.out.println("=== INICIANDO CONTROLADOR DE JUEGO ===");
-            System.out.println("Protagonista: " + protagonista.getNombre() + " en (" + 
-                             protagonista.getPosX() + "," + protagonista.getPosY() + ")");
+            System.out.println("Protagonista: " + protagonista.getNombre() + " en (" +
+                    protagonista.getPosX() + "," + protagonista.getPosY() + ")");
 
             // Crear escenario con rutas correctas
             escenario = new Escenario(
                     "/com/fabio/mapa.txt",
                     "/com/fabio/enemigos.txt");
-            
+
             System.out.println("Escenario creado. Dimensiones: " + escenario.getAncho() + "x" + escenario.getAlto());
             System.out.println("Enemigos en el escenario: " + escenario.getEnemigos().size());
-            
+
             // Mostrar detalles de cada enemigo
             for (int i = 0; i < escenario.getEnemigos().size(); i++) {
                 Enemigo enemigo = escenario.getEnemigos().get(i);
-                System.out.println("  Enemigo " + (i+1) + ": " + enemigo.getTipo() + 
-                                 " en (" + enemigo.getPosX() + "," + enemigo.getPosY() + ")");
+                System.out.println("  Enemigo " + (i + 1) + ": " + enemigo.getTipo() +
+                        " en (" + enemigo.getPosX() + "," + enemigo.getPosY() + ")");
             }
-            
+
             escenario.setProtagonista(protagonista);
             System.out.println("Protagonista colocado en el escenario");
 
@@ -79,7 +79,7 @@ public class ControladorJuego {
 
             // Iniciar el bucle de juego para el turno de enemigos
             iniciarBucleJuego();
-            
+
             System.out.println("=== CONTROLADOR INICIALIZADO CORRECTAMENTE ===");
 
         } catch (IOException e) {
@@ -186,7 +186,7 @@ public class ControladorJuego {
             return;
 
         gridEscenario.getChildren().clear();
-        
+
         System.out.println("=== DIBUJANDO ESCENARIO ===");
         int protagonistasEncontrados = 0;
         int enemigosEncontrados = 0;
@@ -197,9 +197,16 @@ public class ControladorJuego {
                 Personaje personaje = escenario.getPersonajeEn(x, y);
 
                 Rectangle rect = new Rectangle(30, 30);
-                // Establecer el color del fondo como blanco si hay un personaje,
-                // de lo contrario, usar el color basado en la transitabilidad
-                rect.setFill(personaje != null ? Color.WHITE : (celda.esTransitable() ? Color.WHITE : Color.GRAY));
+                // Establecer colores según el tipo de celda
+                if (personaje != null) {
+                    rect.setFill(Color.WHITE);
+                } else if (celda.esPared()) {
+                    rect.setFill(Color.GRAY);
+                } else if (celda.esMaldicion()) {
+                    rect.setFill(Color.PURPLE); // Color para celdas de maldición
+                } else {
+                    rect.setFill(Color.WHITE);
+                }
                 rect.setStroke(Color.BLACK);
 
                 StackPane stackPane = new StackPane();
@@ -225,9 +232,9 @@ public class ControladorJuego {
                 gridEscenario.add(stackPane, x, y);
             }
         }
-        
-        System.out.println("Total dibujado - Protagonistas: " + protagonistasEncontrados + 
-                         ", Enemigos: " + enemigosEncontrados);
+
+        System.out.println("Total dibujado - Protagonistas: " + protagonistasEncontrados +
+                ", Enemigos: " + enemigosEncontrados);
         System.out.println("=== FIN DIBUJO ESCENARIO ===");
     }
 
