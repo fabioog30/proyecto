@@ -50,6 +50,10 @@ public abstract class Personaje {
         this.posX = x;
         this.posY = y;
     }
+
+    public void setSaludMaxima(int saludNueva){
+        this.saludMaxima = saludNueva;
+    }
     
     /**
      * Método para recibir daño.
